@@ -13,7 +13,7 @@ int main()
 	
 	FILE* fp1;
 	fp1 = fopen("input.txt", "r");
-	int i, k,j;
+	int i=0, k,j;
 	unsigned char chbuff[l + 1] = { 0 }, ch[l + 1] = { 0 };
 	fseek(fp1, 0, SEEK_END);
 	int size = ftell(fp1);
@@ -26,38 +26,46 @@ int main()
 			//ch[1] = 0;
 			//ch[2] = 0;
 			//chbuff[0] = alf[k];
-		//	chbuff[1] = alf[j];
+			//	chbuff[1] = alf[j];
 			
 			ch[1] = fgetc(fp1);
+			i++;
 			while((ch[1]<192)||(ch[1]>255))
 			{
+				i++;
 				ch[1] = fgetc(fp1);
 			}
 			if (ch[1] < MAXLOW)
 				ch[1] += 32;
 			ch[2] = fgetc(fp1);
+			i++;
 			while ((ch[2]<192) || (ch[2]>255))
 			{
+				i++;
 				ch[2] = fgetc(fp1);
 			}
 			if (ch[2] < MAXLOW)
 				ch[2] += 32;
 			n += 2;
-			for (i = 0; i < size; i++)
+
+			for (i = i; i < 718269;)
 			{
 				ch[0] = ch[1];
 				ch[1] = ch[2];
 				ch[2] = fgetc(fp1);
-				
+				i++;
 				if ((ch[2] < 192) || (ch[2]>255))
 				{
 					while ((ch[2] < 192) || (ch[2]>255))
 					{
 						ch[2] = fgetc(fp1);
+						i++;
 					}
 				}
 				if (ch[2] < MAXLOW)
 					ch[2] += 32;
+				if ((ch[0] - 224 == 31) && (ch[1] - 224 == 31) && (ch[2] - 224 == 31))
+					i++;
 				count[ch[0]-224][ch[1]-224][ch[2]-224] += 1;
 				n++;
 			}
@@ -106,12 +114,13 @@ int main()
 				}
 			}
 
-			for (int i = 0; i < 200; i++) {
+			for (int i = 0; i < 200; i++) 
+			{
 				fprintf(out, "%c%c%c\n", threegrams[i][0], threegrams[i][1], threegrams[i][2]);
 			}
 
 
-
+			return 0;
 			
 }
 
